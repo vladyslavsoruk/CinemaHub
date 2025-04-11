@@ -1,0 +1,8 @@
+{
+  "UserName": "admin",
+  "Email": "admin@example.com",
+  "Name": "Admin",
+  "Surname": "User",
+  "Birthday": "2001-01-01T00:00:00Z",
+  "EmailConfirmed": true
+}
