@@ -1,4 +1,11 @@
-import { Box, Button, IconButton, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { TicketSeat } from "../../models/tickets";
 import { SerializedError } from "@reduxjs/toolkit";
@@ -11,15 +18,16 @@ function SelectedSeats({
   rows,
   handleDeleteTicketClick,
   handleBookingTicketClick,
-  loading, error,
+  loading,
+  error,
 }: {
-  price: number,
-  rows: number,
+  price: number;
+  rows: number;
   selectedSeats: TicketSeat[];
   handleDeleteTicketClick: (seat: TicketSeat) => void;
   handleBookingTicketClick: () => void;
-  loading?: boolean,
-  error?: FetchBaseQueryError | SerializedError,
+  loading?: boolean;
+  error?: FetchBaseQueryError | SerializedError;
 }) {
   const theme = useTheme();
 
@@ -45,9 +53,7 @@ function SelectedSeats({
               alignItems: "center",
               gap: "20px",
               border: "1px solid transparent",
-              borderColor: seat.row === rows
-                  ? "primary.main"
-                  : 'text.primary',
+              borderColor: seat.row === rows ? "primary.main" : "text.primary",
               padding: "8px 15px",
               borderRadius: "8px",
             }}
@@ -72,7 +78,8 @@ function SelectedSeats({
               <Box>
                 <Typography variant="caption">Place</Typography>
                 <Typography variant="body2" sx={{ fontWeight: 700 }}>
-                  {seat.seat} <span>&mdash;</span> {seat.row===rows? 'Lux' : 'Standart'}
+                  {seat.seat} <span>&mdash;</span>{" "}
+                  {seat.row === rows ? "Lux" : "Standart"}
                 </Typography>
               </Box>
               <Box>
@@ -109,10 +116,10 @@ function SelectedSeats({
       >
         Total:{" "}
         <span style={{ color: theme.palette.text.primary }}>
-          {(price*selectedSeats.length).toFixed(3)} $
+          {(price * selectedSeats.length).toFixed(0)} $
         </span>
       </Typography>
-      <ErrorDisplay error={error} sx={{mt:1}}/>
+      <ErrorDisplay error={error} sx={{ mt: 1 }} />
       <Button
         variant="contained"
         size="large"

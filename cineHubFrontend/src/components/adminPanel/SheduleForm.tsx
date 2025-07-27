@@ -61,6 +61,7 @@ const SheduleForm = ({ filter, home }: SheduleFormProps) => {
         : dateList.findIndex((item) => item.isSame(filter.date));
     setSelectedDate(index);
   }, [filter.date]);
+
   const [selectedDate, setSelectedDate] = useState(0);
   const { data } = serverAPI.useFetchSessionsQuery({
     page: 1,
@@ -69,6 +70,18 @@ const SheduleForm = ({ filter, home }: SheduleFormProps) => {
     hallId: filter.hall ? filter.hall.id : undefined,
     date: dateList[selectedDate].toISOString(),
   });
+
+  // console.log("filter", filter.date);
+  // console.log(
+  //   "dateList.findIndex((item) => item.isSame(filter.date))",
+  //   dateList.findIndex((item) => item.isSame(filter.date))
+  // );
+
+  // console.log("dateList", dateList);
+  // console.log("dateList[selectedDate]", dateList[selectedDate].toISOString());
+  // console.log("selectedDate", selectedDate);
+  // console.log("SheduleForm data", data);
+
   return (
     <Paper
       sx={{

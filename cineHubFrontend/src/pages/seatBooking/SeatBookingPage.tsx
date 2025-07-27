@@ -24,32 +24,38 @@ import { themoviedbAPI } from "../../store/api/themoviedb";
 import { TicketSeat } from "../../models/tickets";
 
 const SeatBookingPage: React.FC = () => {
-
   const theme = useTheme();
   const [selectedSeats, setSelectedSeats] = useState<TicketSeat[]>([]);
 
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id') || '';
+  const id = searchParams.get("id") || "";
   const { data } = serverAPI.useFetchReservedQuery(id);
-  const { data: movie } = themoviedbAPI.useFetchMovieQuery(data?.session.filmId || 0);
+  const { data: movie } = themoviedbAPI.useFetchMovieQuery(
+    data?.session.filmId || 0
+  );
 
   const handleSeatClick = (seat: TicketSeat) => {
-    setSelectedSeats(prev =>
-      prev.some(item => item.row === seat.row && item.seat === seat.seat) ?
-        prev.filter(item => !(item.row === seat.row && item.seat === seat.seat)) :
-        [...prev, seat]
+    setSelectedSeats((prev) =>
+      prev.some((item) => item.row === seat.row && item.seat === seat.seat)
+        ? prev.filter(
+            (item) => !(item.row === seat.row && item.seat === seat.seat)
+          )
+        : [...prev, seat]
     );
   };
 
   const handleDeleteTicketClick = (seat: TicketSeat) => {
-    setSelectedSeats(prev =>
-      prev.filter(item => !(item.row === seat.row && item.seat === seat.seat))
+    setSelectedSeats((prev) =>
+      prev.filter((item) => !(item.row === seat.row && item.seat === seat.seat))
     );
   };
   const [create, { isLoading, error }] = serverAPI.useCreateTicketMutation();
 
   const handleBookingTicketClick = async () => {
-    selectedSeats.forEach(async item => {
+    selectedSeats.forEach(async (item) => {
+      console.log("item", item);
+      console.log("data?.session.price", data?.session.price);
+
       await create({
         sessionId: id,
         rowNumber: item.row,
@@ -58,7 +64,7 @@ const SeatBookingPage: React.FC = () => {
       });
     });
     setSelectedSeats([]);
-  }
+  };
 
   return (
     <Container
@@ -204,7 +210,7 @@ const SeatBookingPage: React.FC = () => {
                       fontSize: "16px",
                     }}
                   >
-                    {dayjs(data?.session.startTime).date()}
+                    {dayjs(data?.session.startTime).format("DD.MM.YYYY")}
                   </Typography>
                   <Typography
                     variant="subtitle1"
@@ -254,7 +260,7 @@ const SeatBookingPage: React.FC = () => {
                       fontSize: "16px",
                     }}
                   >
-                    {dayjs(data?.session.startTime).format('HH:mm')}
+                    {dayjs(data?.session.startTime).format("HH:mm")}
                   </Typography>
                   <Typography
                     variant="subtitle1"
@@ -271,7 +277,14 @@ const SeatBookingPage: React.FC = () => {
           </Box>
 
           {/* Seat Plan */}
-          <SeatPlan selectedSeats={selectedSeats} price={data?.session.price || 0} seats={data?.seats || 0} rows={data?.rows || 0} reservedSeats={data?.reservedSeats || []} handleSeatClick={handleSeatClick} />
+          <SeatPlan
+            selectedSeats={selectedSeats}
+            price={data?.session.price || 0}
+            seats={data?.seats || 0}
+            rows={data?.rows || 0}
+            reservedSeats={data?.reservedSeats || []}
+            handleSeatClick={handleSeatClick}
+          />
         </Grid2>
 
         <Grid2 sx={{ width: "470px", mx: "auto" }}>
@@ -304,7 +317,9 @@ const SeatBookingPage: React.FC = () => {
                 }}
               >
                 Your tickets:{" "}
-                <span style={{ color: theme.palette.primary.main }}>{selectedSeats.length}</span>
+                <span style={{ color: theme.palette.primary.main }}>
+                  {selectedSeats.length}
+                </span>
               </Typography>
               <Typography
                 variant="h6"
@@ -317,7 +332,10 @@ const SeatBookingPage: React.FC = () => {
               >
                 Price:{" "}
                 <span style={{ color: theme.palette.primary.main }}>
-                  {((data?.session.price || 0) * selectedSeats.length).toFixed(3)} $
+                  {((data?.session.price || 0) * selectedSeats.length).toFixed(
+                    0
+                  )}{" "}
+                  $
                 </span>
               </Typography>
             </Box>

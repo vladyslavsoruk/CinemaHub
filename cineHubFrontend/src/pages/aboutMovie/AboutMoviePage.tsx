@@ -19,9 +19,6 @@ import {
 } from "@mui/material";
 import CastCarousel from "../../components/moviePage/CastCarousel.js";
 import MovieSessions from "../../components/moviePage/MovieSessions.js";
-import { useTheme } from "@emotion/react";
-
-// Ids of films: 1138194, 539972, 426063, 1249289, 970450, 1184918, 1064213, 993710, 970450
 
 const InfoItem = ({ label, value }: { label: string; value: string }) => (
   <Box>
@@ -49,7 +46,10 @@ export default function AboutMoviePage() {
     const m = parseInt(minutes);
     const hours = Math.floor(m / 60);
     const mins = m - hours * 60;
-    return `${hours.toString().padStart(2, "0")}:${mins}`;
+
+    return `${hours.toString().padStart(2, "0")}:${mins
+      .toString()
+      .padStart(2, "0")}`;
   }
 
   useEffect(() => {
@@ -66,6 +66,8 @@ export default function AboutMoviePage() {
       .then((response) => response.json())
       .then((data) => {
         if (data.results && data.results.length > 0) {
+          console.log(data.results);
+
           setTrailerKey(data.results[0].key);
         } else {
           setTrailerErrorMessage("No video preview found for this movie :/");
@@ -93,7 +95,6 @@ export default function AboutMoviePage() {
         console.error("An error occurred while fetching cast and crew:", error)
       );
   }, [movieId]);
-
 
   if (!movieData) {
     return (
@@ -427,7 +428,7 @@ export default function AboutMoviePage() {
               Schedule of sessions
             </Typography>
             <Box sx={{ p: 2, bgcolor: "background.default", borderRadius: 2 }}>
-              <MovieSessions movieId={Number(movieId)}/>
+              <MovieSessions movieId={Number(movieId)} />
             </Box>
           </Paper>
         </Grid2>

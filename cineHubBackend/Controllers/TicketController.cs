@@ -17,7 +17,6 @@ namespace cineHubBackend.Controllers
         private readonly ITicketService _ticketService;
         private readonly ISessionService _sessionService;
 
-
         public TicketController(ITicketService ticketService, ISessionService sessionService)
         {
             _ticketService = ticketService;
@@ -25,7 +24,7 @@ namespace cineHubBackend.Controllers
         }
 
         [HttpGet]
-        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public async Task<IActionResult> GetAllPagination([FromQuery] int page = 1, [FromQuery] int itemsPerPage = 10)
         {
             if (page < 1 || itemsPerPage < 1)
@@ -56,11 +55,12 @@ namespace cineHubBackend.Controllers
         }
 
         [HttpPost]
-        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
         public IActionResult Create([FromBody] CreateTicketBodyDto ticketDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Console.WriteLine("User ID: " + userId);
             _ticketService.Create(new CreateTicketDto
             {
                 UserId = userId,
@@ -73,7 +73,7 @@ namespace cineHubBackend.Controllers
         }
 
         [HttpDelete("{id}")]
-        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult Delete([FromRoute] string id)
         {
             _ticketService.Delete(id);
