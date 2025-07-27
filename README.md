@@ -6,10 +6,6 @@ The project is a web application for managing the activities of a cinema, design
 [Backend](#backend) was built with ASP.NET Core that provides functionality for managing a cinema ticket booking system. It follows a three-tier architecture and interacts with a PostgreSQL database.
 [Frontend](#frontend) was built with Vite, React, TypeScript, MUI, Redux Toolkit.
 
-- [Backend](#backend)
-
-- [Frontend](#frontend)
-
 # Backend
 
 ## Table of Contents
